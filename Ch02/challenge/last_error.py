@@ -22,3 +22,12 @@ def load_df(db_file):
     conn = sqlite3.connect(db_file, detect_types=sqlite3.PARSE_DECLTYPES)
     with closing(conn):
         return pd.read_sql('SELECT * FROM logs', conn)
+
+# My solution
+def last_error_time2(df):
+    """Find last time there's an error in df"""
+    filtered_df = df[df['status_code'] >= 400]
+    if not filtered_df.empty:
+        return filtered_df['time'].max()
+    else:
+        return None
